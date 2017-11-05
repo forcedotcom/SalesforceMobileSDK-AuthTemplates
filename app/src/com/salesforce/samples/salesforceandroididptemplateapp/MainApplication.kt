@@ -49,7 +49,6 @@ class MainApplication : Application() {
         // SmartSyncSDKManager.getInstance().isIDPLoginFlowEnabled = true
         // SmartSyncSDKManager.getInstance().idpAppURIScheme = idpAppURIScheme
 
-
         /*
          * Uncomment the following line to enable browser based login. This will use a
          * Chrome custom tab to login instead of the default WebView. You will also need
