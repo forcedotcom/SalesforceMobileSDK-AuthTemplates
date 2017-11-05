@@ -4,8 +4,6 @@
 	android:layout_height="match_parent" android:background="#454545"
 	android:id="@+id/root">
 
-	<include layout="@layout/header" />
-
 	<LinearLayout android:orientation="horizontal" android:layout_width="match_parent"
 	    android:layout_height="wrap_content">
 		<Button android:id="@+id/fetch_contacts" android:layout_width="wrap_content"
