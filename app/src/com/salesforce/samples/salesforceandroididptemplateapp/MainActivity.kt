@@ -29,42 +29,27 @@ package com.salesforce.samples.salesforceandroididptemplateapp
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.Toast
-import com.salesforce.androidsdk.app.SalesforceSDKManager
-import com.salesforce.androidsdk.rest.ApiVersionStrings
 import com.salesforce.androidsdk.rest.RestClient
-import com.salesforce.androidsdk.rest.RestClient.AsyncRequestCallback
-import com.salesforce.androidsdk.rest.RestRequest
-import com.salesforce.androidsdk.rest.RestResponse
 import com.salesforce.androidsdk.ui.SalesforceActivity
-import java.io.UnsupportedEncodingException
-import java.util.*
 
 /**
- * Main activity
+ * This activity represents the landing screen. It displays 2 tabs - 1 for apps
+ * and the other for signed in users. It can be used to add users or launch
+ * SP apps with the specified user to trigger login on the SP app.
+ *
+ * @author bhariharan
  */
 class MainActivity : SalesforceActivity() {
 
     private var client: RestClient? = null
-    private var listAdapter: ArrayAdapter<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Setup view
         setContentView(R.layout.main)
     }
 
     override fun onResume() {
-        // Hide everything until we are logged in
         findViewById<ViewGroup>(R.id.root).visibility = View.INVISIBLE
-
-        // Create list adapter
-        listAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, ArrayList<String>())
-        findViewById<ListView>(R.id.contacts_list).adapter = listAdapter
-
         super.onResume()
     }
 
@@ -74,81 +59,5 @@ class MainActivity : SalesforceActivity() {
 
         // Show everything
         findViewById<ViewGroup>(R.id.root).visibility = View.VISIBLE
-    }
-
-    /**
-     * Called when "Logout" button is clicked.
-
-     * @param v
-     */
-    @Suppress("UNUSED_PARAMETER")
-    fun onLogoutClick(v: View) {
-        SalesforceSDKManager.getInstance().logout(this)
-    }
-
-    /**
-     * Called when "Clear" button is clicked.
-
-     * @param v
-     */
-    @Suppress("UNUSED_PARAMETER")
-    fun onClearClick(v: View) {
-        listAdapter!!.clear()
-    }
-
-    /**
-     * Called when "Fetch Contacts" button is clicked
-
-     * @param v
-     * *
-     * @throws UnsupportedEncodingException
-     */
-    @Throws(UnsupportedEncodingException::class)
-    @Suppress("UNUSED_PARAMETER")
-    fun onFetchContactsClick(v: View) {
-        sendRequest("SELECT Name FROM Contact")
-    }
-
-    /**
-     * Called when "Fetch Accounts" button is clicked
-
-     * @param v
-     * *
-     * @throws UnsupportedEncodingException
-     */
-    @Throws(UnsupportedEncodingException::class)
-    @Suppress("UNUSED_PARAMETER")
-    fun onFetchAccountsClick(v: View) {
-        sendRequest("SELECT Name FROM Account")
-    }
-
-    @Throws(UnsupportedEncodingException::class)
-    private fun sendRequest(soql: String) {
-        val restRequest = RestRequest.getRequestForQuery(ApiVersionStrings.getVersionNumber(this), soql)
-
-        client!!.sendAsync(restRequest, object : AsyncRequestCallback {
-            override fun onSuccess(request: RestRequest, result: RestResponse) {
-                result.consumeQuietly() // consume before going back to main thread
-                runOnUiThread {
-                    try {
-                        listAdapter!!.clear()
-                        val records = result.asJSONObject().getJSONArray("records")
-                        for (i in 0..records.length() - 1) {
-                            listAdapter!!.add(records.getJSONObject(i).getString("Name"))
-                        }
-                    } catch (e: Exception) {
-                        onError(e)
-                    }
-                }
-            }
-
-            override fun onError(exception: Exception) {
-                runOnUiThread {
-                    Toast.makeText(this@MainActivity,
-                            this@MainActivity.getString(SalesforceSDKManager.getInstance().salesforceR.stringGenericError(), exception.toString()),
-                            Toast.LENGTH_LONG).show()
-                }
-            }
-        })
     }
 }
