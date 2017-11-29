@@ -23,6 +23,7 @@
  */
 import UIKit
 import SalesforceSDKCore
+
 class AppsViewController: UIViewController {
 
     @IBOutlet weak var appOneButton: UIButton!
@@ -49,17 +50,13 @@ class AppsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.messageLabel.text = "The following apps will be launched in the context of user " + (SFUserAccountManager.sharedInstance().currentUser?.fullName)!;
         self.messageLabel.text = "Launch app as user\n" + (SFUserAccountManager.sharedInstance().currentUser?.fullName)!;
         self.messageLabel.textAlignment = .center;
         self.messageLabel.font = messageLabel.font.withSize(16);
-        //self.appOneButton.titleLabel?.font = UIFont(name: "System", size: 16);
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func launchSPApp(appUrl :String) {
@@ -69,16 +66,4 @@ class AppsViewController: UIViewController {
         let url = URL(string: urlString)
         SFApplicationHelper.open(url!)
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

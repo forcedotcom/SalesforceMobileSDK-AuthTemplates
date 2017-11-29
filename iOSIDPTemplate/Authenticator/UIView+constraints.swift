@@ -1,4 +1,3 @@
-import UIKit
 /*
  Copyright (c) 2017-present, salesforce.com, inc. All rights reserved.
  
@@ -22,6 +21,8 @@ import UIKit
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+import UIKit
+
 extension UIView {
   
   func constrainCentered(_ subview: UIView) {
@@ -118,5 +119,4 @@ extension UIView {
       leadingContraint,
       trailingContraint])
   }
-  
 }

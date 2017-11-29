@@ -24,6 +24,7 @@
 import Foundation
 import UIKit
 import SalesforceSDKCore
+
 let app_one_key = "app-one"
 
 let app_two_key = "app-two"
@@ -69,8 +70,6 @@ extension String {
         }
         return nil
     }
-    
-    
 }
 
 public extension Sequence {
@@ -83,6 +82,3 @@ public extension Sequence {
         return dict
     }
 }
-
-
-

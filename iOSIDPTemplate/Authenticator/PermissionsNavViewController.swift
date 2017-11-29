@@ -21,20 +21,16 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 import UIKit
 import SalesforceSDKCore
 
 class PermissionsNavViewController: UINavigationController,SFSDKUserSelectionView {
-   
-
 
     var permissionsController: PermissionsViewController
-    
-    var userSelectionDelegate :SFSDKUserSelectionViewDelegate?
+
+    var userSelectionDelegate : SFSDKUserSelectionViewDelegate?
     {
-        set
-        {
+        set {
             permissionsController.userSelectionDelegate = newValue
         }
         get {
@@ -43,38 +39,29 @@ class PermissionsNavViewController: UINavigationController,SFSDKUserSelectionVie
     }
      var spAppOptions: [AnyHashable : Any]!
      {
-        set
-        {
+        set {
             permissionsController.spAppOptions = newValue
         }
         get {
             return permissionsController.spAppOptions
         }
     }
-    
-    
-   
-    init(){
+
+    init() {
         permissionsController  = PermissionsViewController(nibName: "PermissionsViewController", bundle: nil)
         super.init(nibName: nil, bundle: nil)
-        
-       // super.init(rootViewController: permissionsController)
     }
-    
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
         self.pushViewController(permissionsController, animated: true)
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }

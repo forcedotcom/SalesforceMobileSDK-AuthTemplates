@@ -24,11 +24,11 @@
 import UIKit
 import WYPopoverController
 import SalesforceSDKCore
+
 class MainViewController: UINavigationController {
     
     var popOverController:WYPopoverController?
     @IBOutlet weak var showPopoverButton: UIBarButtonItem!
-
 
     @IBAction func popOverAction(_ sender: UIBarButtonItem) {
         let popOverContent = ActionsPopoverTableViewController(nibName: nil, bundle: nil)
@@ -37,21 +37,13 @@ class MainViewController: UINavigationController {
         self.popOverController = WYPopoverController(contentViewController: popOverContent)
         self.popOverController?.presentPopover(from: sender, permittedArrowDirections: .any, animated: true)
     }
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Load each of the view controllers you want to embed
-        // from the storyboard.
-//        let storyboard = UIStoryboard(name: "AuthenticatorMain", bundle: nil)
-//        storyboard.instantiateInitialViewController()
     }
     
-    func showOtherActions(sender: UIBarButtonItem){
-        
+    func showOtherActions(sender: UIBarButtonItem) {
     }
-
-
 }
 
 extension MainViewController : ActionsPopoverTableViewDelegate {
@@ -102,6 +94,4 @@ extension MainViewController : ActionsPopoverTableViewDelegate {
             
         }
     }
-
 }
-

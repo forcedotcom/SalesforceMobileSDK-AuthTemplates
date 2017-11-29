@@ -77,16 +77,13 @@ class UserListViewController: UITableViewController,UserTableViewCellDelegate, S
         self.groups?.keys.forEach({ (groupName) in
             groupIds.append(groupName)
         })
-        //userAccounts = SFUserAccountManager.sharedInstance().allUserAccounts()!
         self.tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return groupIds.count
     }
@@ -96,13 +93,9 @@ class UserListViewController: UITableViewController,UserTableViewCellDelegate, S
         return  userAccounts!.count
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let result = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! UserTableViewCell
-        
         let userAccounts = self.groups![groupIds[indexPath.section]]
-        
         if( SFUserAccountManager.sharedInstance().currentUser?
             .accountIdentity.isEqual(userAccounts![indexPath.row].userAccount.accountIdentity))! {
             result.currentUserImage.isHidden = false;
@@ -116,16 +109,12 @@ class UserListViewController: UITableViewController,UserTableViewCellDelegate, S
         result.email.text = userAccounts?[indexPath.row].userAccount.userName
         let imageName = userAccounts?[indexPath.row].userAccount.idData?.firstName?.lowercased()
         result.userPicture.image = UIImage(named: imageName!)
-       
         let image = UIImage(named: imageName!)
-        
         if let img = image  {
             result.userPicture.image = img
         } else {
             result.userPicture.image = UIImage(named: "placeholder")
         }
-        
-        
         return result
     }
     
@@ -134,17 +123,13 @@ class UserListViewController: UITableViewController,UserTableViewCellDelegate, S
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        
         var action:SwipeAction?
         let userAccounts = self.groups![groupIds[indexPath.section]]
-       
         if (orientation == .right) {
             action = SwipeAction(style: .destructive, title: "Logout") { action, indexPath in
                 self.logoutUser(user: (userAccounts?[indexPath.row].userAccount)!)
                 self.reloadData()
-                // handle action by updating model with deletion
             }
-            // customize the action appearance
             action?.image = UIImage(named: "Logout")
         } else {
             action = SwipeAction(style: .default, title: "Make Current") { action, indexPath in
@@ -152,7 +137,6 @@ class UserListViewController: UITableViewController,UserTableViewCellDelegate, S
                 self.reloadData()
             }
             action?.backgroundColor = UIColor(red: 94/255, green: 232/255, blue: 9/255, alpha: 1.0)
-            // customize the action appearance
             action?.image = UIImage(named: "Current")
         }
         return [action!]
