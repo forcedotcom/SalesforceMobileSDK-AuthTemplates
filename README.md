@@ -1,2 +1,2 @@
 # SalesforceMobileSDK-AuthTemplates
-A simple template for an app that can be used as an identity provider for other Salesforce Android apps
+A group of templates for various types of Salesforce authentication flows
