@@ -68,7 +68,6 @@
             and 'host' is "authenticator". The full URI that needs to be set on the SP app
             would be "com.salesforce.samples.salesforceandroididptemplateapp://authenticator".
         -->
-		<!--
         <activity android:name="com.salesforce.androidsdk.auth.idp.IDPAccountPickerActivity"
             android:excludeFromRecents="true"
             android:theme="@style/SalesforceSDK.ActionBarTheme">
@@ -81,7 +80,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        -->
 	</application>
 
     <uses-sdk android:minSdkVersion="21"
