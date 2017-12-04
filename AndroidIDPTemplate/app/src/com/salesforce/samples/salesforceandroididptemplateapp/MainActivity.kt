@@ -29,6 +29,7 @@ package com.salesforce.samples.salesforceandroididptemplateapp
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TabHost
 import com.salesforce.androidsdk.rest.RestClient
 import com.salesforce.androidsdk.ui.SalesforceActivity
 
@@ -41,11 +42,31 @@ import com.salesforce.androidsdk.ui.SalesforceActivity
  */
 class MainActivity : SalesforceActivity() {
 
+    companion object {
+        private const val TAG = "MainActivity"
+        private const val USERS_TAB = "Users"
+        private const val APPS_TAB = "Apps"
+    }
+
     private var client: RestClient? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
+        val host = findViewById<ViewGroup>(R.id.tab_host) as TabHost
+        host.setup()
+
+        // Tab that displays list of users.
+        var usersTabSpec: TabHost.TabSpec = host.newTabSpec(USERS_TAB)
+        usersTabSpec.setContent(R.id.users_tab)
+        usersTabSpec.setIndicator(USERS_TAB)
+        host.addTab(usersTabSpec)
+
+        // Tab that displays list of apps.
+        var appsTabSpec = host.newTabSpec(APPS_TAB)
+        appsTabSpec.setContent(R.id.apps_tab)
+        appsTabSpec.setIndicator(APPS_TAB)
+        host.addTab(appsTabSpec)
     }
 
     override fun onResume() {
@@ -54,10 +75,7 @@ class MainActivity : SalesforceActivity() {
     }
 
     override fun onResume(client: RestClient) {
-        // Keeping reference to rest client
         this.client = client
-
-        // Show everything
         findViewById<ViewGroup>(R.id.root).visibility = View.VISIBLE
     }
 }
