@@ -29,7 +29,11 @@ package com.salesforce.samples.salesforceandroididptemplateapp
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import android.widget.TabHost
+import com.salesforce.androidsdk.accounts.UserAccount
+import com.salesforce.androidsdk.accounts.UserAccountManager
 import com.salesforce.androidsdk.rest.RestClient
 import com.salesforce.androidsdk.ui.SalesforceActivity
 
@@ -46,27 +50,37 @@ class MainActivity : SalesforceActivity() {
         private const val TAG = "MainActivity"
         private const val USERS_TAB = "Users"
         private const val APPS_TAB = "Apps"
+        private const val SMART_SYNC_EXPLORER = "SmartSyncExplorer"
+        private const val REST_EXPLORER = "RestExplorer"
+        private const val ACCOUNT_EDITOR = "AccountEditor"
     }
 
     private var client: RestClient? = null
+    private var usersListView: ListView? = null
+    private var appsListView: ListView? = null
+    private var currentUser: UserAccount? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
-        val host = findViewById<ViewGroup>(R.id.tab_host) as TabHost
-        host.setup()
+        val tabHost = findViewById<TabHost>(R.id.tab_host)
+        tabHost.setup()
 
         // Tab that displays list of users.
-        var usersTabSpec: TabHost.TabSpec = host.newTabSpec(USERS_TAB)
+        val usersTabSpec: TabHost.TabSpec = tabHost.newTabSpec(USERS_TAB)
         usersTabSpec.setContent(R.id.users_tab)
         usersTabSpec.setIndicator(USERS_TAB)
-        host.addTab(usersTabSpec)
+        tabHost.addTab(usersTabSpec)
 
         // Tab that displays list of apps.
-        var appsTabSpec = host.newTabSpec(APPS_TAB)
+        val appsTabSpec = tabHost.newTabSpec(APPS_TAB)
         appsTabSpec.setContent(R.id.apps_tab)
         appsTabSpec.setIndicator(APPS_TAB)
-        host.addTab(appsTabSpec)
+        tabHost.addTab(appsTabSpec)
+
+        // Getting a handle on list views.
+        usersListView = findViewById<ListView>(R.id.users_list)
+        appsListView = findViewById<ListView>(R.id.apps_list)
     }
 
     override fun onResume() {
@@ -76,6 +90,16 @@ class MainActivity : SalesforceActivity() {
 
     override fun onResume(client: RestClient) {
         this.client = client
+        currentUser = UserAccountManager.getInstance().currentUser
         findViewById<ViewGroup>(R.id.root).visibility = View.VISIBLE
+
+        // Displays list of users available.
+        val users = UserAccountManager.getInstance().authenticatedUsers
+        usersListView?.adapter = ArrayAdapter(this,
+                android.R.layout.simple_selectable_list_item, users)
+
+        // Displays list of apps available.
+        appsListView?.adapter = ArrayAdapter(this, android.R.layout.simple_selectable_list_item,
+                arrayListOf(SMART_SYNC_EXPLORER, REST_EXPLORER, ACCOUNT_EDITOR))
     }
 }

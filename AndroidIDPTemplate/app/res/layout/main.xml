@@ -28,6 +28,9 @@
 					android:layout_height="match_parent"
 					android:orientation="vertical">
 
+					<ListView android:id="@+id/users_list"
+                        android:layout_width="match_parent"
+						android:layout_height="match_parent" />
 				</LinearLayout>
 
 				<LinearLayout android:id="@+id/apps_tab"
@@ -35,6 +38,9 @@
 					android:layout_height="match_parent"
 					android:orientation="vertical">
 
+					<ListView android:id="@+id/apps_list"
+                        android:layout_width="match_parent"
+						android:layout_height="match_parent" />
 				</LinearLayout>
 			</FrameLayout>
 		</LinearLayout>
