@@ -81,6 +81,9 @@ class MainActivity : SalesforceActivity() {
         // Getting a handle on list views.
         usersListView = findViewById<ListView>(R.id.users_list)
         appsListView = findViewById<ListView>(R.id.apps_list)
+
+        // Setting click listeners for the list views.
+
     }
 
     override fun onResume() {
@@ -96,10 +99,21 @@ class MainActivity : SalesforceActivity() {
         // Displays list of users available.
         val users = UserAccountManager.getInstance().authenticatedUsers
         usersListView?.adapter = ArrayAdapter(this,
-                android.R.layout.simple_selectable_list_item, users)
+                android.R.layout.simple_selectable_list_item, buildListOfUsers())
 
         // Displays list of apps available.
         appsListView?.adapter = ArrayAdapter(this, android.R.layout.simple_selectable_list_item,
                 arrayListOf(SMART_SYNC_EXPLORER, REST_EXPLORER, ACCOUNT_EDITOR))
+    }
+
+    private fun buildListOfUsers(): List<String>? {
+        val users = UserAccountManager.getInstance().authenticatedUsers
+        val usernames: MutableList<String> = mutableListOf()
+        if (users != null) {
+            for (user in users) {
+                usernames.add(user.username)
+            }
+        }
+        return usernames
     }
 }
