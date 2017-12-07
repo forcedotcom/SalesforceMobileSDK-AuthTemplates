@@ -26,16 +26,21 @@
  */
 package com.salesforce.samples.salesforceandroididptemplateapp
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TabHost
 import com.salesforce.androidsdk.accounts.UserAccount
 import com.salesforce.androidsdk.accounts.UserAccountManager
+import com.salesforce.androidsdk.auth.idp.IDPInititatedLoginReceiver
 import com.salesforce.androidsdk.rest.RestClient
 import com.salesforce.androidsdk.ui.SalesforceActivity
+
 
 /**
  * This activity represents the landing screen. It displays 2 tabs - 1 for apps
@@ -53,6 +58,9 @@ class MainActivity : SalesforceActivity() {
         private const val SMART_SYNC_EXPLORER = "SmartSyncExplorer"
         private const val REST_EXPLORER = "RestExplorer"
         private const val ACCOUNT_EDITOR = "AccountEditor"
+        private const val SMART_SYNC_EXPLORER_PACKAGE = "com.salesforce.samples.smartsyncexplorer"
+        private const val REST_EXPLORER_PACKAGE = "com.salesforce.samples.restexplorer"
+        private const val ACCOUNT_EDITOR_PACKAGE = "com.salesforce.samples.accounteditor"
     }
 
     private var client: RestClient? = null
@@ -83,7 +91,8 @@ class MainActivity : SalesforceActivity() {
         appsListView = findViewById<ListView>(R.id.apps_list)
 
         // Setting click listeners for the list views.
-
+        (usersListView as ListView).onItemClickListener = OnItemClickListener { _, _, position, _ -> handleUserListItemClick(position) }
+        (appsListView as ListView).onItemClickListener = OnItemClickListener { _, _, position, _ -> handleAppsListItemClick(position) }
     }
 
     override fun onResume() {
@@ -115,5 +124,39 @@ class MainActivity : SalesforceActivity() {
             }
         }
         return usernames
+    }
+
+    private fun getUserFromUsername(username: String?): UserAccount? {
+        val users = UserAccountManager.getInstance().authenticatedUsers
+        if (users != null) {
+            for (user in users) {
+                if (user.username.equals(username)) {
+                    return user
+                }
+            }
+        }
+        return null
+    }
+
+    private fun handleUserListItemClick(position: Int) {
+        Log.d(TAG, "User list item clicked, position: " + position)
+        val username = usersListView?.adapter?.getItem(position) as String
+        UserAccountManager.getInstance().switchToUser(getUserFromUsername(username))
+        currentUser = UserAccountManager.getInstance().currentUser
+    }
+
+    private fun handleAppsListItemClick(position: Int) {
+        Log.d(TAG, "Apps list item clicked, position: " + position)
+        val appName = usersListView?.adapter?.getItem(position) as String
+        var appPackageName = ""
+        when (appName) {
+            SMART_SYNC_EXPLORER -> appPackageName = SMART_SYNC_EXPLORER_PACKAGE
+            REST_EXPLORER -> appPackageName = REST_EXPLORER_PACKAGE
+            ACCOUNT_EDITOR -> appPackageName = ACCOUNT_EDITOR_PACKAGE
+        }
+        Log.d(TAG, "App being launched: " + appName + ", package name: " + appPackageName)
+        val intent = Intent(IDPInititatedLoginReceiver.IDP_LOGIN_REQUEST_ACTION)
+        intent.`package` = packageName
+        sendBroadcast(intent)
     }
 }
