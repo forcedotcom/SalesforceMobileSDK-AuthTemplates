@@ -55,6 +55,7 @@ class MainActivity : SalesforceActivity() {
         private const val TAG = "MainActivity"
         private const val USERS_TAB = "Users"
         private const val APPS_TAB = "Apps"
+        private const val ADD_NEW_USER = "Add New User"
         private const val SMART_SYNC_EXPLORER = "SmartSyncExplorer"
         private const val REST_EXPLORER = "RestExplorer"
         private const val ACCOUNT_EDITOR = "AccountEditor"
@@ -123,6 +124,7 @@ class MainActivity : SalesforceActivity() {
                 usernames.add(user.username)
             }
         }
+        usernames.add(ADD_NEW_USER)
         return usernames
     }
 
@@ -139,10 +141,14 @@ class MainActivity : SalesforceActivity() {
     }
 
     private fun handleUserListItemClick(position: Int) {
-        Log.d(TAG, "User list item clicked, position: " + position)
         val username = usersListView?.adapter?.getItem(position) as String
-        UserAccountManager.getInstance().switchToUser(getUserFromUsername(username))
-        currentUser = UserAccountManager.getInstance().currentUser
+        Log.d(TAG, "User list item clicked, position: " + position + ", username: " + username)
+        if (ADD_NEW_USER.equals(username)) {
+            UserAccountManager.getInstance().switchToNewUser()
+        } else {
+            UserAccountManager.getInstance().switchToUser(getUserFromUsername(username))
+            currentUser = UserAccountManager.getInstance().currentUser
+        }
     }
 
     private fun handleAppsListItemClick(position: Int) {
