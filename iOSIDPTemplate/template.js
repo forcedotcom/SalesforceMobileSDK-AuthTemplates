@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-present, salesforce.com, inc.
+ * Copyright (c) 2017-present, salesforce.com, inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided
@@ -36,7 +36,7 @@ function prepare(config, replaceInFiles, moveFile, removeFile) {
     var path = require('path');
 
     // Values in template
-    var templateAppName =  'Authenticator';//'iOSNativeSwiftTemplate';
+    var templateAppName =  'Authenticator';
     var templatePackageName = 'com.salesforce.Authenticator';
     var templateOrganization = 'Authenticator';
 
@@ -82,7 +82,6 @@ function prepare(config, replaceInFiles, moveFile, removeFile) {
         workspacePath: config.appname + ".xcworkspace",
         bootconfigFile: path.join(config.appname, 'AppDelegate.swift')
     };
-
 }
 
 //
