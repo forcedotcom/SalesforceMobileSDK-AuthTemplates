@@ -41,7 +41,6 @@ import com.salesforce.androidsdk.auth.idp.IDPInititatedLoginReceiver
 import com.salesforce.androidsdk.rest.RestClient
 import com.salesforce.androidsdk.ui.SalesforceActivity
 
-
 /**
  * This activity represents the landing screen. It displays 2 tabs - 1 for apps
  * and the other for signed in users. It can be used to add users or launch
