@@ -62,6 +62,10 @@ class MainActivity : SalesforceActivity() {
         private const val SMART_SYNC_EXPLORER_PACKAGE = "com.salesforce.samples.smartsyncexplorer"
         private const val REST_EXPLORER_PACKAGE = "com.salesforce.samples.restexplorer"
         private const val ACCOUNT_EDITOR_PACKAGE = "com.salesforce.samples.accounteditor"
+        private const val SMART_SYNC_COMPONENT_NAME = "MainActivity"
+        private const val REST_EXPLORER_COMPONENT_NAME = "ExplorerActivity"
+        private const val ACCOUNT_EDITOR_COMPONENT_NAME = "SalesforceDroidGapActivity"
+        private const val COLON = ":"
     }
 
     private var client: RestClient? = null
@@ -155,14 +159,30 @@ class MainActivity : SalesforceActivity() {
         Log.d(TAG, "Apps list item clicked, position: " + position)
         val appName = usersListView?.adapter?.getItem(position) as String
         var appPackageName = ""
+        var appComponentName = ""
         when (appName) {
-            SMART_SYNC_EXPLORER -> appPackageName = SMART_SYNC_EXPLORER_PACKAGE
-            REST_EXPLORER -> appPackageName = REST_EXPLORER_PACKAGE
-            ACCOUNT_EDITOR -> appPackageName = ACCOUNT_EDITOR_PACKAGE
+            SMART_SYNC_EXPLORER -> {
+                appPackageName = SMART_SYNC_EXPLORER_PACKAGE
+                appComponentName = SMART_SYNC_COMPONENT_NAME
+            }
+            REST_EXPLORER -> {
+                appPackageName = REST_EXPLORER_PACKAGE
+                appComponentName = REST_EXPLORER_COMPONENT_NAME
+            }
+            ACCOUNT_EDITOR -> {
+                appPackageName = ACCOUNT_EDITOR_PACKAGE
+                appComponentName = ACCOUNT_EDITOR_COMPONENT_NAME
+            }
         }
         Log.d(TAG, "App being launched: " + appName + ", package name: " + appPackageName)
         val intent = Intent(IDPInititatedLoginReceiver.IDP_LOGIN_REQUEST_ACTION)
+
+        // Limiting intent to the target app's package.
         intent.`package` = packageName
+
+        // Adding user hint and target component.
+        intent.putExtra(IDPInititatedLoginReceiver.USER_HINT_KEY, currentUser?.orgId + COLON + currentUser?.userId)
+        intent.putExtra(IDPInititatedLoginReceiver.SP_ACTVITY_NAME_KEY, appComponentName)
         sendBroadcast(intent)
     }
 }
