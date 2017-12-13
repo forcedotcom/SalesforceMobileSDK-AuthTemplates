@@ -156,7 +156,7 @@ class MainActivity : SalesforceActivity() {
 
     private fun handleAppsListItemClick(position: Int) {
         Log.d(TAG, "Apps list item clicked, position: " + position)
-        val appName = usersListView?.adapter?.getItem(position) as String
+        val appName = appsListView?.adapter?.getItem(position) as String
         var appPackageName = ""
         var appComponentName = ""
         when (appName) {
@@ -175,9 +175,10 @@ class MainActivity : SalesforceActivity() {
         }
         Log.d(TAG, "App being launched: " + appName + ", package name: " + appPackageName)
         val intent = Intent(IDPInititatedLoginReceiver.IDP_LOGIN_REQUEST_ACTION)
+        intent.addCategory(Intent.CATEGORY_DEFAULT)
 
         // Limiting intent to the target app's package.
-        intent.`package` = packageName
+        intent.`package` = appPackageName
 
         // Adding user hint and target component.
         intent.putExtra(IDPInititatedLoginReceiver.USER_HINT_KEY, currentUser?.orgId + COLON + currentUser?.userId)
