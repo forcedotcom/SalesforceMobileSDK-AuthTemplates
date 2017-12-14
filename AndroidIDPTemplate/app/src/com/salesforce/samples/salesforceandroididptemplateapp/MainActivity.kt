@@ -39,7 +39,6 @@ import com.salesforce.androidsdk.accounts.UserAccount
 import com.salesforce.androidsdk.accounts.UserAccountManager
 import com.salesforce.androidsdk.auth.idp.IDPInititatedLoginReceiver
 import com.salesforce.androidsdk.rest.RestClient
-import com.salesforce.androidsdk.smartsync.app.SmartSyncSDKManager
 import com.salesforce.androidsdk.ui.SalesforceActivity
 
 /**
@@ -66,7 +65,6 @@ class MainActivity : SalesforceActivity() {
         private const val REST_EXPLORER_COMPONENT_NAME = "ExplorerActivity"
         private const val ACCOUNT_EDITOR_COMPONENT_NAME = "SalesforceDroidGapActivity"
         private const val COLON = ":"
-        private const val FEATURE_APP_USES_KOTLIN = "KT"
     }
 
     private var client: RestClient? = null
@@ -77,7 +75,6 @@ class MainActivity : SalesforceActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
-        SmartSyncSDKManager.getInstance().registerUsedAppFeature(FEATURE_APP_USES_KOTLIN)
         val tabHost = findViewById<TabHost>(R.id.tab_host)
         tabHost.setup()
 
