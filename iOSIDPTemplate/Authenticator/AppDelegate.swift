@@ -39,38 +39,25 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     init()
     {
         super.init()
-        SalesforceSDKManager.setInstanceClass(SalesforceSwiftSDKManager.self)
-        SalesforceSDKManager.shared().appConfig?.remoteAccessConsumerKey = RemoteAccessConsumerKey
-        SalesforceSDKManager.shared().appConfig?.oauthRedirectURI = OAuthRedirectURI
-        SalesforceSDKManager.shared().appConfig?.oauthScopes = ["web", "api"]
-       
-        SalesforceSDKManager.shared().idpUserSelectionBlock = {
-           let controller = PermissionsNavViewController()
-           return controller
-        }
-        SalesforceSDKManager.shared().isIdentityProvider = true
-        SalesforceSDKManager.shared()
-     
-        SalesforceSDKManager.shared().postLaunchAction = {
-            [unowned self] (launchActionList: SFSDKLaunchAction) in
+        SalesforceSwiftSDKManager.initSDK().Builder.configure { (appconfig: SFSDKAppConfig) -> Void in
+        appconfig.oauthScopes = ["web", "api"]
+        appconfig.remoteAccessConsumerKey = RemoteAccessConsumerKey
+        appconfig.oauthRedirectURI = OAuthRedirectURI
+        }.postLaunch {  [unowned self] (launchActionList: SFSDKLaunchAction) in
             let launchActionString = SalesforceSDKManager.launchActionsStringRepresentation(launchActionList)
-            SFSDKLogger.log(type(of:self), level:.info, message:"Post-launch: launch actions taken: \(launchActionString)");
-            self.setupRootViewController();
-        }
-        SalesforceSDKManager.shared().launchErrorAction = {
-            [unowned self] (error: Error, launchActionList: SFSDKLaunchAction) in
+            SalesforceSwiftLogger.log(type(of:self), level:.info, message:"Post-launch: launch actions taken: \(launchActionString)")
+            self.setupRootViewController()
+            
+        }.postLogout {  [unowned self] in
+            self.handleSdkManagerLogout()
+        }.switchUser{ [unowned self] (fromUser: SFUserAccount?, toUser: SFUserAccount?) -> () in
+            self.handleUserSwitch(fromUser, toUser: toUser)
+        }.launchError {  [unowned self] (error: Error, launchActionList: SFSDKLaunchAction) in
             SFSDKLogger.log(type(of:self), level:.error, message:"Error during SDK launch: \(error.localizedDescription)")
             self.initializeAppViewState()
-            SalesforceSDKManager.shared().launch()
+            SalesforceSwiftSDKManager.shared().launch()
         }
-        SalesforceSDKManager.shared().postLogoutAction = {
-            [unowned self] in
-            self.handleSdkManagerLogout()
-        }
-        SalesforceSDKManager.shared().switchUserAction = {
-            [unowned self] (fromUser: SFUserAccount?, toUser: SFUserAccount?) -> () in
-            self.handleUserSwitch(fromUser, toUser: toUser)
-        }
+        .done()
     }
     
     // MARK: - App delegate lifecycle
