@@ -28,7 +28,6 @@ import SalesforceSwiftSDK
 
 // Fill these in when creating a new Connected Application on Force.com
 let RemoteAccessConsumerKey = "3MVG9g9rbsTkKnAVZKH353rwNPSNxK7EC.JENfWndAnLC5s1S8YK4W68IJ0.RHCbvfJ9N5hAPgZIKoYhRKH91";
-
 let OAuthRedirectURI        = "authenticator:///mobilesdk/detect/oauth/done"
 
 class AppDelegate : UIResponder, UIApplicationDelegate
@@ -47,7 +46,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate
             let launchActionString = SalesforceSDKManager.launchActionsStringRepresentation(launchActionList)
             SalesforceSwiftLogger.log(type(of:self), level:.info, message:"Post-launch: launch actions taken: \(launchActionString)")
             self.setupRootViewController()
-            
         }.postLogout {  [unowned self] in
             self.handleSdkManagerLogout()
         }.switchUser{ [unowned self] (fromUser: SFUserAccount?, toUser: SFUserAccount?) -> () in
@@ -56,8 +54,8 @@ class AppDelegate : UIResponder, UIApplicationDelegate
             SFSDKLogger.log(type(of:self), level:.error, message:"Error during SDK launch: \(error.localizedDescription)")
             self.initializeAppViewState()
             SalesforceSwiftSDKManager.shared().launch()
-        }
-        .done()
+        }.done()
+        SalesforceSwiftSDKManager.shared().isIdentityProvider = true
     }
     
     // MARK: - App delegate lifecycle
