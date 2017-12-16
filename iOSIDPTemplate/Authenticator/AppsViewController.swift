@@ -36,12 +36,17 @@ class AppsViewController: UIViewController {
     }
     
     @IBOutlet weak var messageLabel: UILabel!
+    
     @IBAction func appOneButtonAction(_ sender: Any) {
-        launchSPApp(appUrl: readAppOneUrl())
+        //change these to reflect the schemes of apps you would like to initiate from the
+        //authenticator
+        launchSPApp(appUrl: "sampleapp")
     }
     
     @IBAction func appTwoButtonAction(_ sender: Any) {
-        launchSPApp(appUrl: readAppTwoUrl())
+        //change these to reflect the schemes of apps you would like to initiate from the
+        //authenticator
+        launchSPApp(appUrl: "sampleapptwo")
     }
     
     required init?(coder aDecoder: NSCoder) {
