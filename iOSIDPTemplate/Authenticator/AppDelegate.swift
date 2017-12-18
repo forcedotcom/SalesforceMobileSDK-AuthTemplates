@@ -75,17 +75,16 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         
         //
         //Uncomment the code below to see how you can customize the color, textcolor, font and fontsize of the navigation bar
-        //
-        // let loginViewController = SFLoginViewController.sharedInstance();
-        //Set showNavBar to NO if you want to hide the top bar
-        // loginViewController.showNavbar = true;
-        //Set showSettingsIcon to NO if you want to hide the settings icon on the nav bar
-        // loginViewController.showSettingsIcon = true;
-        // Set primary color to different color to style the navigation header
-        // loginViewController.navBarColor = UIColor(red: 0.051, green: 0.765, blue: 0.733, alpha: 1.0);
-        // loginViewController.navBarFont = UIFont (name: "Helvetica Neue", size: 16);
-        // loginViewController.navBarTextColor = UIColor.black;
-        //
+        //var loginViewConfig = SFSDKLoginViewControllerConfig()
+        //Set showSettingsIcon to false if you want to hide the settings icon on the nav bar
+        //loginViewConfig.showSettingsIcon = false
+        //Set showNavBar to false if you want to hide the top bar
+        //loginViewConfig.showNavbar = false
+        //loginViewConfig.navBarColor = UIColor(red: 0.051, green: 0.765, blue: 0.733, alpha: 1.0)
+        //loginViewConfig.navBarTextColor = UIColor.white
+        //loginViewConfig.navBarFont = UIFont(name: "Helvetica", size: 16.0)
+        //SFUserAccountManager.sharedInstance().loginViewControllerConfig = loginViewConfig
+        
         SalesforceSDKManager.shared().launch()
        // SFAuthenticationManager.shared()
         return true
