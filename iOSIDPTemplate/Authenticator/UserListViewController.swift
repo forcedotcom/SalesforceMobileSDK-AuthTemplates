@@ -58,11 +58,11 @@ class UserListViewController: UITableViewController,UserTableViewCellDelegate, S
         let nib = UINib(nibName: "UserTableViewCell", bundle: bundle)
         self.tableView.register(nib, forCellReuseIdentifier: cellIdentifier)
         self.tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "headerfooterview")
-        self.reloadData()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        self.reloadData()
     }
     
     func reloadData(){
