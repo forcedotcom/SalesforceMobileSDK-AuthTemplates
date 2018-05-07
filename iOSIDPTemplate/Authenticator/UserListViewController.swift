@@ -107,14 +107,8 @@ class UserListViewController: UITableViewController,UserTableViewCellDelegate, S
         result.user = userAccounts?[indexPath.row].userAccount
         result.userFullName.text = userAccounts?[indexPath.row].userAccount.fullName
         result.email.text = userAccounts?[indexPath.row].userAccount.userName
-        let imageName = userAccounts?[indexPath.row].userAccount.idData?.firstName?.lowercased()
-        result.userPicture.image = UIImage(named: imageName!)
-        let image = UIImage(named: imageName!)
-        if let img = image  {
-            result.userPicture.image = img
-        } else {
-            result.userPicture.image = UIImage(named: "placeholder")
-        }
+        let imageName = (userAccounts?[indexPath.row].userAccount.idData?.firstName?.lowercased()) ?? "placeholder"
+        result.userPicture.image = UIImage(named: imageName) ?? UIImage(named: "placeholder")
         return result
     }
     
