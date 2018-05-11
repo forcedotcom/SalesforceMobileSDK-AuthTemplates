@@ -38,7 +38,7 @@ function prepare(config, replaceInFiles, moveFile, removeFile) {
     // Values in template
     var templateAppName =  'Authenticator';
     var templatePackageName = 'com.salesforce.Authenticator';
-    var templateOrganization = 'Authenticator';
+    var templateOrganization = 'SFDCAuthenticator';
 
     // Key files
     var templatePodfile = 'Podfile';
